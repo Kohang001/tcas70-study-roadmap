@@ -14,7 +14,7 @@ import {
 import SubjectBadge from '../components/SubjectBadge';
 import ProgressBar from '../components/ProgressBar';
 import { SUBJECT_LIST, SUBJECTS } from '../data/subjects';
-import { DAILY_PLANS } from '../data/studyPlan';
+import { ALL_DAILY_PLANS } from '../data/studyPlan';
 import { getSubjectProgress } from '../utils/progressUtils';
 
 export default function Subjects({ subtaskStates }) {
@@ -45,7 +45,7 @@ export default function Subjects({ subtaskStates }) {
       {/* Grid of Subject Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '20px' }}>
         {SUBJECT_LIST.map(subject => {
-          const stats = getSubjectProgress(subject.code, DAILY_PLANS, subtaskStates);
+          const stats = getSubjectProgress(subject.code, ALL_DAILY_PLANS, subtaskStates);
 
           return (
             <div

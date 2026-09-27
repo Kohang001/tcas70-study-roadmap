@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { formatDateToISO } from '../utils/dateUtils';
-import { DAILY_PLANS } from '../data/studyPlan';
+import { ALL_DAILY_PLANS } from '../data/studyPlan';
 import { calculateStreak } from '../utils/progressUtils';
 
 const STORAGE_KEYS = {
@@ -322,7 +322,7 @@ export function useStudyProgress() {
   }, []);
 
   // Compute study streak
-  const streak = calculateStreak(DAILY_PLANS, subtaskStates, activeToday);
+  const streak = calculateStreak(ALL_DAILY_PLANS, subtaskStates, activeToday);
 
   return {
     realTodayStr,

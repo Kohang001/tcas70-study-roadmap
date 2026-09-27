@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Calendar, ChevronDown, ChevronUp, ArrowRight, Target } from 'lucide-react';
 import ProgressBar from './ProgressBar';
-import { DAILY_PLANS } from '../data/studyPlan';
+import { ALL_DAILY_PLANS } from '../data/studyPlan';
 import { getDayProgress } from '../utils/progressUtils';
 import SubjectBadge from './SubjectBadge';
 
@@ -14,7 +14,7 @@ export default function MonthCard({
 
   // Filter all daily plans belonging to this month (e.g. 2026-10)
   const monthKey = monthMeta.id; // '2026-10'
-  const daysInThisMonth = DAILY_PLANS.filter(p => p.date.startsWith(monthKey));
+  const daysInThisMonth = ALL_DAILY_PLANS.filter(p => p.date.startsWith(monthKey));
 
   // Compute month progress
   let totalSub = 0;
