@@ -17,6 +17,63 @@ import { ALL_DAILY_PLANS } from "../data/studyPlan";
 import { getSubjectProgress, getDayProgress } from "../utils/progressUtils";
 import { formatThaiDate } from "../utils/dateUtils";
 
+function debugMonthStudyMix(monthKey) {
+  const totals = {
+    exam: 0,
+    math: 0,
+    physics: 0,
+    english: 0
+  };
+
+  ALL_DAILY_PLANS
+    .filter(plan => plan.date.startsWith(monthKey))
+    .forEach(plan => {
+      plan.tasks?.forEach(task => {
+        const minutes = task.duration || 0;
+
+        if (
+          ['TGAT1', 'TGAT2', 'TGAT3', 'TPAT3']
+            .includes(task.subject)
+        ) {
+          totals.exam += minutes;
+        }
+
+        if (task.subject === 'Math1') {
+          totals.math += minutes;
+        }
+
+        if (task.subject === 'Physics') {
+          totals.physics += minutes;
+        }
+
+        if (task.subject === 'English') {
+          totals.english += minutes;
+        }
+      });
+    });
+
+  const total =
+    totals.exam +
+    totals.math +
+    totals.physics +
+    totals.english;
+
+  const percentages = {};
+
+  Object.entries(totals).forEach(([key, value]) => {
+    percentages[key] =
+      total > 0
+        ? Number(((value / total) * 100).toFixed(1))
+        : 0;
+  });
+
+  console.log(monthKey, {
+    minutes: totals,
+    percentages,
+    totalHours: Number((total / 60).toFixed(1))
+  });
+}
+
 export default function Progress({ activeToday, streak, subtaskStates }) {
   // Compute overall stats across all daily plans
   let totalTasksOverall = 0;

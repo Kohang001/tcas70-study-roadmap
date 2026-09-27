@@ -2348,7 +2348,7 @@ export const DAILY_PLANS = [
         id: "2027-01-31-physics",
         subject: "Physics",
         topic: "Kinematics & Newton’s Laws: รวมโจทย์ A-Level ฟิสิกส์กลศาสตร์",
-        duration: 180,
+        duration: 90,
         type: "A-Level Deep Dive",
         subtasks: [
           {
@@ -2362,7 +2362,7 @@ export const DAILY_PLANS = [
         id: "2027-01-31-english",
         subject: "English",
         topic: "A-Level English: Reading Comprehension Techniques",
-        duration: 90,
+        duration: 45,
         type: "Reading & Vocab",
         subtasks: [
           { id: "2027-01-31-e-1", title: "ท่องศัพท์ A-Level 20 คำ" },
@@ -3149,6 +3149,200 @@ export const DAILY_PLANS = [
 const ROADMAP_START_DATE = "2026-09-28";
 const ROADMAP_LAST_DATE = "2027-03-14";
 
+const WEEKLY_STUDY_TARGETS = [
+  // ช่วงเริ่มต้น
+  {
+    fromWeek: 1,
+    toWeek: 5,
+    totalMinutes: 1080, // 18 ชั่วโมง
+    mix: {
+      exam: 65,
+      math: 15,
+      physics: 15,
+      english: 5,
+    },
+  },
+
+  // พฤศจิกายน
+  {
+    fromWeek: 6,
+    toWeek: 9,
+    totalMinutes: 1080, // 18 ชั่วโมง
+    mix: {
+      exam: 60,
+      math: 18,
+      physics: 17,
+      english: 5,
+    },
+  },
+
+  // ธันวาคม
+  {
+    fromWeek: 10,
+    toWeek: 13,
+    totalMinutes: 1200, // 20 ชั่วโมง
+    mix: {
+      exam: 70,
+      math: 12,
+      physics: 12,
+      english: 6,
+    },
+  },
+
+  // มกราคมช่วงแรก
+  {
+    fromWeek: 14,
+    toWeek: 16,
+    totalMinutes: 1200,
+    mix: {
+      exam: 80,
+      math: 8,
+      physics: 8,
+      english: 4,
+    },
+  },
+
+  // Final TGAT / TPAT
+  {
+    fromWeek: 17,
+    toWeek: 18,
+    totalMinutes: 1200,
+    mix: {
+      exam: 90,
+      math: 5,
+      physics: 5,
+      english: 0,
+    },
+  },
+
+  // กุมภาพันธ์
+  {
+    fromWeek: 19,
+    toWeek: 22,
+    totalMinutes: 1380, // 23 ชั่วโมง
+    mix: {
+      exam: 0,
+      math: 40,
+      physics: 35,
+      english: 25,
+    },
+  },
+
+  // มีนาคม
+  {
+    fromWeek: 23,
+    toWeek: 24,
+    totalMinutes: 1200, // 20 ชั่วโมง
+    mix: {
+      exam: 0,
+      math: 40,
+      physics: 35,
+      english: 25,
+    },
+  },
+];
+
+function getWeeklyStudyTarget(week) {
+  return WEEKLY_STUDY_TARGETS.find(
+    (target) => week >= target.fromWeek && week <= target.toWeek,
+  );
+}
+
+function getSlotCountsForWeek(week) {
+  // ก่อน Final TGAT
+  if (week <= 13) {
+    return {
+      exam: 7,
+      math: 2,
+      physics: 3,
+      english: 2,
+    };
+  }
+
+  // มกราคมช่วง Accuracy / Speed
+  if (week <= 16) {
+    return {
+      exam: 9,
+      math: 2,
+      physics: 2,
+      english: 1,
+    };
+  }
+
+  // Final TGAT / TPAT
+  if (week <= 18) {
+    return {
+      exam: 9,
+      math: 1,
+      physics: 1,
+      english: 0,
+    };
+  }
+
+  // A-Level
+  return {
+    exam: 0,
+    math: 4,
+    physics: 3,
+    english: 5,
+  };
+}
+
+function roundToFive(value) {
+  return Math.round(value / 5) * 5;
+}
+
+function calculateSlotDuration(totalMinutes, percentage, slots) {
+  if (!percentage || !slots) {
+    return 0;
+  }
+
+  const minutesForSubject = totalMinutes * (percentage / 100);
+
+  return Math.max(5, roundToFive(minutesForSubject / slots));
+}
+
+function getDurationSet(week) {
+  const target = getWeeklyStudyTarget(week);
+
+  if (!target) {
+    return {
+      exam: 60,
+      math: 60,
+      physics: 60,
+      english: 30,
+    };
+  }
+
+  const slots = getSlotCountsForWeek(week);
+
+  return {
+    exam: calculateSlotDuration(
+      target.totalMinutes,
+      target.mix.exam,
+      slots.exam,
+    ),
+
+    math: calculateSlotDuration(
+      target.totalMinutes,
+      target.mix.math,
+      slots.math,
+    ),
+
+    physics: calculateSlotDuration(
+      target.totalMinutes,
+      target.mix.physics,
+      slots.physics,
+    ),
+
+    english: calculateSlotDuration(
+      target.totalMinutes,
+      target.mix.english,
+      slots.english,
+    ),
+  };
+}
+
 function parseLocalDate(dateStr) {
   const [year, month, day] = dateStr.split("-").map(Number);
   return new Date(year, month - 1, day);
@@ -3210,7 +3404,9 @@ function createGeneratedTask(
   };
 }
 
-function buildPreTgatTasks(dateStr, dayOfWeek, profile) {
+function buildPreTgatTasks(dateStr, dayOfWeek, profile, week) {
+  const duration = getDurationSet(week);
+
   switch (dayOfWeek) {
     // Monday
     case 1:
@@ -3219,14 +3415,14 @@ function buildPreTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TGAT1",
           profile.tgat1,
-          60,
+          duration.exam,
           "TGAT1 Practice",
         ),
         createGeneratedTask(
           dateStr,
           "Math1",
           profile.math,
-          60,
+          duration.math,
           "A-Level Maintenance",
         ),
       ];
@@ -3238,14 +3434,14 @@ function buildPreTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TPAT3",
           profile.tpat3,
-          75,
+          duration.exam,
           "TPAT3 Practice",
         ),
         createGeneratedTask(
           dateStr,
           "Physics",
           profile.physics,
-          60,
+          duration.physics,
           "Physics Foundation",
         ),
       ];
@@ -3257,7 +3453,7 @@ function buildPreTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TGAT2",
           profile.tgat2,
-          90,
+          duration.exam,
           "TGAT2 Practice",
         ),
       ];
@@ -3269,14 +3465,14 @@ function buildPreTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TPAT3",
           profile.tpat3,
-          75,
+          duration.exam,
           "TPAT3 Practice",
         ),
         createGeneratedTask(
           dateStr,
           "Physics",
           profile.physics,
-          60,
+          duration.physics,
           "Physics Practice",
         ),
       ];
@@ -3288,14 +3484,14 @@ function buildPreTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TGAT3",
           profile.tgat3,
-          60,
+          duration.exam,
           "TGAT3 Practice",
         ),
         createGeneratedTask(
           dateStr,
           "English",
           profile.english,
-          30,
+          duration.english,
           "English Maintenance",
         ),
       ];
@@ -3307,14 +3503,14 @@ function buildPreTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TPAT3",
           profile.tpat3,
-          120,
+          duration.exam,
           "Mixed / Mock Practice",
         ),
         createGeneratedTask(
           dateStr,
           "TGAT2",
           profile.tgat2,
-          60,
+          duration.exam,
           "Mixed Practice",
         ),
       ];
@@ -3326,21 +3522,21 @@ function buildPreTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "Math1",
           profile.math,
-          120,
+          duration.math,
           "Weekly Review",
         ),
         createGeneratedTask(
           dateStr,
           "Physics",
           profile.physics,
-          120,
+          duration.physics,
           "Weekly Review",
         ),
         createGeneratedTask(
           dateStr,
           "English",
           profile.english,
-          30,
+          duration.english,
           "Vocabulary / Reading",
         ),
       ];
@@ -3350,7 +3546,171 @@ function buildPreTgatTasks(dateStr, dayOfWeek, profile) {
   }
 }
 
-function buildFinalTgatTasks(dateStr, dayOfWeek, profile) {
+function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
+  const duration = getDurationSet(week);
+  const maintenanceMode = week <= 16;
+  if (profile.mode === "final-tgat-light") {
+    switch (dayOfWeek) {
+      // Monday
+      case 1:
+        return [
+          createGeneratedTask(
+            dateStr,
+            "TGAT1",
+            profile.tgat1,
+            duration.exam,
+            "Timed Practice",
+          ),
+
+          createGeneratedTask(
+            dateStr,
+            "Math1",
+            profile.math,
+            duration.math,
+            "A-Level Maintenance",
+          ),
+        ];
+
+      // Tuesday
+      case 2: {
+        const tasks = [
+          createGeneratedTask(
+            dateStr,
+            "TPAT3",
+            profile.tpat3,
+            duration.exam,
+            "Timed Practice",
+          ),
+        ];
+
+        if (maintenanceMode) {
+          tasks.push(
+            createGeneratedTask(
+              dateStr,
+              "Physics",
+              profile.physics,
+              duration.physics,
+              "A-Level Maintenance",
+            ),
+          );
+        }
+
+        return tasks;
+      }
+
+      // Wednesday
+      case 3:
+        return [
+          createGeneratedTask(
+            dateStr,
+            "TGAT2",
+            profile.tgat2,
+            duration.exam,
+            "Timed Practice",
+          ),
+
+          createGeneratedTask(
+            dateStr,
+            "TGAT3",
+            profile.tgat3,
+            duration.exam,
+            "Timed Practice",
+          ),
+        ];
+
+      // Thursday
+      case 4:
+        return [
+          createGeneratedTask(
+            dateStr,
+            "TPAT3",
+            profile.tpat3,
+            duration.exam,
+            "Mechanical / Engineering",
+          ),
+
+          createGeneratedTask(
+            dateStr,
+            "Physics",
+            profile.physics,
+            duration.physics,
+            "A-Level Maintenance",
+          ),
+        ];
+
+      // Friday
+      case 5: {
+        const tasks = [
+          createGeneratedTask(
+            dateStr,
+            "TGAT2",
+            "Error Log & Weak Point Review",
+            duration.exam,
+            "Review",
+          ),
+
+          createGeneratedTask(
+            dateStr,
+            "TPAT3",
+            "Formula & Weak Point Review",
+            duration.exam,
+            "Review",
+          ),
+        ];
+
+        if (maintenanceMode) {
+          tasks.push(
+            createGeneratedTask(
+              dateStr,
+              "Math1",
+              profile.math,
+              duration.math,
+              "A-Level Maintenance",
+            ),
+          );
+
+          tasks.push(
+            createGeneratedTask(
+              dateStr,
+              "English",
+              profile.english,
+              duration.english,
+              "Light Review",
+            ),
+          );
+        }
+
+        return tasks;
+      }
+
+      // Saturday
+      case 6:
+        return [
+          createGeneratedTask(
+            dateStr,
+            "TPAT3",
+            "TPAT3 Full Mock",
+            duration.exam,
+            "Full Mock",
+          ),
+        ];
+
+      // Sunday
+      case 0:
+        return [
+          createGeneratedTask(
+            dateStr,
+            "TGAT1",
+            "TGAT Full Mock",
+            duration.exam,
+            "Full Mock",
+          ),
+        ];
+
+      default:
+        return [];
+    }
+  }
   switch (dayOfWeek) {
     case 1:
       return [
@@ -3358,7 +3718,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TGAT1",
           profile.tgat1,
-          90,
+          duration.exam,
           "Timed Practice",
         ),
       ];
@@ -3369,7 +3729,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TPAT3",
           profile.tpat3,
-          120,
+          duration.exam,
           "Timed Practice",
         ),
       ];
@@ -3380,14 +3740,14 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TGAT2",
           profile.tgat2,
-          75,
+          duration.exam,
           "Timed Practice",
         ),
         createGeneratedTask(
           dateStr,
           "TGAT3",
           profile.tgat3,
-          60,
+          duration.exam,
           "Timed Practice",
         ),
       ];
@@ -3398,7 +3758,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TPAT3",
           profile.tpat3,
-          120,
+          duration.exam,
           "Mechanical / Engineering",
         ),
       ];
@@ -3409,14 +3769,14 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TGAT2",
           "Error Log & Weak Point Review",
-          60,
+          duration.exam,
           "Review",
         ),
         createGeneratedTask(
           dateStr,
           "TPAT3",
           "Formula & Weak Point Review",
-          60,
+          duration.exam,
           "Review",
         ),
       ];
@@ -3427,7 +3787,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TPAT3",
           "TPAT3 Full Mock",
-          180,
+          duration.exam,
           "Full Mock",
         ),
       ];
@@ -3438,7 +3798,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "TGAT1",
           "TGAT Full Mock",
-          180,
+          duration.exam,
           "Full Mock",
         ),
       ];
@@ -3448,7 +3808,8 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile) {
   }
 }
 
-function buildALevelTasks(dateStr, dayOfWeek, profile) {
+function buildALevelTasks(dateStr, dayOfWeek, profile, week) {
+  const duration = getDurationSet(week);
   switch (dayOfWeek) {
     // Monday
     case 1:
@@ -3457,14 +3818,14 @@ function buildALevelTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "Math1",
           profile.math,
-          120,
+          duration.math,
           "Math Practice",
         ),
         createGeneratedTask(
           dateStr,
           "English",
           profile.english,
-          45,
+          duration.english,
           "English Practice",
         ),
       ];
@@ -3476,14 +3837,14 @@ function buildALevelTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "Physics",
           profile.physics,
-          120,
+          duration.physics,
           "Physics Practice",
         ),
         createGeneratedTask(
           dateStr,
           "English",
           profile.english,
-          45,
+          duration.english,
           "English Practice",
         ),
       ];
@@ -3495,7 +3856,7 @@ function buildALevelTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "Math1",
           profile.math,
-          150,
+          duration.math,
           "Topic Practice",
         ),
       ];
@@ -3507,7 +3868,7 @@ function buildALevelTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "Physics",
           profile.physics,
-          150,
+          duration.physics,
           "Topic Practice",
         ),
       ];
@@ -3519,14 +3880,14 @@ function buildALevelTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "English",
           profile.english,
-          90,
+          duration.english,
           "English Practice",
         ),
         createGeneratedTask(
           dateStr,
           "Math1",
           `Weak Point: ${profile.math}`,
-          60,
+          duration.math,
           "Weak Point",
         ),
       ];
@@ -3538,10 +3899,16 @@ function buildALevelTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "Math1",
           profile.math,
-          180,
+          duration.math,
           "Topic Test / Mock",
         ),
-        createGeneratedTask(dateStr, "English", profile.english, 60, "Reading"),
+        createGeneratedTask(
+          dateStr,
+          "English",
+          profile.english,
+          duration.english,
+          "Reading",
+        ),
       ];
 
     // Sunday
@@ -3551,10 +3918,16 @@ function buildALevelTasks(dateStr, dayOfWeek, profile) {
           dateStr,
           "Physics",
           profile.physics,
-          180,
+          duration.physics,
           "Topic Test / Mock",
         ),
-        createGeneratedTask(dateStr, "English", profile.english, 60, "Reading"),
+        createGeneratedTask(
+          dateStr,
+          "English",
+          profile.english,
+          duration.english,
+          "Reading",
+        ),
       ];
 
     default:
@@ -3596,11 +3969,11 @@ function generatePlanFromWeekProfile(dateStr) {
   let tasks = [];
 
   if (profile.mode === "pre-tgat" || profile.mode === "mock-tgat") {
-    tasks = buildPreTgatTasks(dateStr, dayOfWeek, profile);
+    tasks = buildPreTgatTasks(dateStr, dayOfWeek, profile, week);
   }
 
   if (profile.mode === "final-tgat" || profile.mode === "final-tgat-light") {
-    tasks = buildFinalTgatTasks(dateStr, dayOfWeek, profile);
+    tasks = buildFinalTgatTasks(dateStr, dayOfWeek, profile, week);
   }
 
   if (
@@ -3608,7 +3981,7 @@ function generatePlanFromWeekProfile(dateStr) {
     profile.mode === "past-paper" ||
     profile.mode === "final-alevel"
   ) {
-    tasks = buildALevelTasks(dateStr, dayOfWeek, profile);
+    tasks = buildALevelTasks(dateStr, dayOfWeek, profile, week);
   }
 
   return {
@@ -3665,12 +4038,12 @@ export function getSmartPlanForDate(dateStr) {
     "Saturday",
   ];
 
-  // Check if date is after all exams
+  // หลังสอบทุกสนาม
   if (dateStr >= "2027-03-15") {
     return {
       date: dateStr,
-      dayOfWeek: dayEng[dayOfWeek],
-      dayThai: dayNames[dayOfWeek],
+      dayOfWeek: "",
+      dayThai: "",
       isPostExam: true,
       phase: "เสร็จสิ้นเส้นทาง TCAS70",
       week: 24,
@@ -3679,7 +4052,7 @@ export function getSmartPlanForDate(dateStr) {
     };
   }
 
-  // Check if Exam Day Jan 30
+  // วันสอบ TGAT / TPAT3
   if (dateStr === "2027-01-30") {
     return {
       date: dateStr,
@@ -3687,58 +4060,27 @@ export function getSmartPlanForDate(dateStr) {
       dayThai: "เสาร์",
       isExamDay: true,
       examType: "TGAT & TPAT3",
-      phase: "EXAM DAY: สนามสอบ TGAT & TPAT3",
+      phase: "EXAM DAY: TGAT & TPAT3",
+      week: 18,
       focus: "วันสอบจริง! มั่นใจในทุกความพยายาม",
       tasks: [],
     };
   }
 
-    // หลังสอบทุกสนาม
-  if (dateStr >= '2027-03-15') {
-    return {
-      date: dateStr,
-      dayOfWeek: '',
-      dayThai: '',
-      isPostExam: true,
-      phase: 'เสร็จสิ้นเส้นทาง TCAS70',
-      week: 24,
-      focus: '🎉 จบ Roadmap TCAS70 แล้ว!',
-      tasks: []
-    };
-  }
-
-  // วันสอบ TGAT / TPAT3
-  if (dateStr === '2027-01-30') {
-    return {
-      date: dateStr,
-      dayOfWeek: 'Saturday',
-      dayThai: 'เสาร์',
-      isExamDay: true,
-      examType: 'TGAT & TPAT3',
-      phase: 'EXAM DAY: TGAT & TPAT3',
-      week: 18,
-      focus: 'วันสอบจริง! มั่นใจในทุกความพยายาม',
-      tasks: []
-    };
-  }
-
   // ถ้าอยู่ภายใน Roadmap ให้สร้างจากข้อมูลรายสัปดาห์
-  if (
-    dateStr >= ROADMAP_START_DATE &&
-    dateStr <= ROADMAP_LAST_DATE
-  ) {
+  if (dateStr >= ROADMAP_START_DATE && dateStr <= ROADMAP_LAST_DATE) {
     return generatePlanFromWeekProfile(dateStr);
   }
 
   // วันที่อยู่นอก Roadmap
   return {
     date: dateStr,
-    dayOfWeek: '',
-    dayThai: '',
-    phase: 'นอกช่วง Roadmap',
+    dayOfWeek: "",
+    dayThai: "",
+    phase: "นอกช่วง Roadmap",
     week: 0,
-    focus: 'ยังไม่มีแผนการอ่านสำหรับวันนี้',
-    tasks: []
+    focus: "ยังไม่มีแผนการอ่านสำหรับวันนี้",
+    tasks: [],
   };
 }
 
