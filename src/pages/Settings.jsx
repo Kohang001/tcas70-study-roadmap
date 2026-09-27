@@ -1,16 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { 
-  Settings as SettingsIcon, 
-  RotateCcw, 
-  Download, 
-  Upload, 
-  Trash2, 
-  User, 
-  Calendar, 
-  HelpCircle, 
-  Sparkles, 
-  CheckCircle2, 
-  AlertTriangle 
+import {
+  Settings as SettingsIcon,
+  RotateCcw,
+  Download,
+  Upload,
+  Trash2,
+  User,
+  Calendar,
+  HelpCircle,
+  Sparkles,
+  CheckCircle2,
+  AlertTriangle
 } from 'lucide-react';
 import { formatThaiDate } from '../utils/dateUtils';
 
@@ -77,6 +77,8 @@ export default function Settings({
     { label: '30 ม.ค. 2570 (🎯 Exam Day: TGAT/TPAT3)', date: '2027-01-30' },
     { label: '01 ก.พ. 2570 (🔥 A-Level Takeover)', date: '2027-02-01' },
     { label: '08 มี.ค. 2570 (สัปดาห์สุดท้าย Final Review)', date: '2027-03-08' },
+    { label: '13 มี.ค. 2570 (🎯 A-Level Physics)', date: '2027-03-13' },
+    { label: '14 มี.ค. 2570 (🎯 Math1 + English)', date: '2027-03-14' },
     { label: '15 มี.ค. 2570 (🎉 จบสนามสอบ TCAS70)', date: '2027-03-15' }
   ];
 

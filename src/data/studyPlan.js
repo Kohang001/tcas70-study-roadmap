@@ -2613,10 +2613,10 @@ export const DAILY_PLANS = [
     dayOfWeek: 'Saturday',
     dayThai: 'เสาร์',
     isExamDay: true,
-    examType: 'A-Level Day 1 (Math1, English)',
-    phase: 'EXAM DAY: สนามสอบ A-Level วันที่ 1',
+    examType: 'A-Level Physics',
+    phase: 'EXAM DAY: A-Level Physics',
     week: 23,
-    focus: 'วันสอบ A-Level วันที่ 1 (คณิตประยุกต์ 1, ภาษาอังกฤษ) มีสมาธิและมั่นใจ!',
+    focus: 'วันสอบ A-Level Physics เวลา 11:00–12:30 น. มีสมาธิ อ่านโจทย์ให้รอบคอบ และบริหารเวลาให้ดี!',
     tasks: []
   },
   {
@@ -2624,10 +2624,10 @@ export const DAILY_PLANS = [
     dayOfWeek: 'Sunday',
     dayThai: 'อาทิตย์',
     isExamDay: true,
-    examType: 'A-Level Day 2 (Physics)',
-    phase: 'EXAM DAY: สนามสอบ A-Level วันที่ 2',
+    examType: 'A-Level Math1 & English',
+    phase: 'EXAM DAY: A-Level Math1 & English',
     week: 23,
-    focus: 'วันสอบ A-Level วันที่ 2 (ฟิสิกส์) ก้าวสุดท้ายสู่เส้นชัย!',
+    focus: 'วันสอบ Math1 เวลา 08:30–10:00 น. และ English เวลา 11:00–12:30 น. สนามสุดท้ายของ Roadmap!',
     tasks: []
   }
 ];

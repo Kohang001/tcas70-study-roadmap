@@ -14,12 +14,13 @@ export const EXAMS = [
     id: 'alevel',
     name: 'A-Level',
     shortName: 'A-Level',
-    date: '2027-03-14',
-    thaiDate: '13-15 มีนาคม 2570',
-    subjects: ['Math1', 'Physics', 'English'],
+    date: '2027-03-13',
+    endDate: '2027-03-14',
+    thaiDate: '13-14 มีนาคม 2570',
+    subjects: ['Physics', 'Math1', 'English'],
     color: '#DC2626',
     bgLight: 'rgba(220, 38, 38, 0.08)',
-    desc: 'การสอบวัดความรู้เชิงวิชาการประยุกต์เพื่อคัดเลือก TCAS รอบ 3 Admission'
+    desc: 'A-Level Physics วันที่ 13 มี.ค. และ Math1 + English วันที่ 14 มี.ค.'
   }
 ];
 
@@ -33,5 +34,6 @@ export const EXAM_DAY_CHECKLIST = [
 ];
 
 export const TGAT_TPAT3_EXAM_DATE = '2027-01-30';
-export const ALEVEL_EXAM_DATE = '2027-03-14';
+export const ALEVEL_START_DATE = '2027-03-13';
+export const ALEVEL_END_DATE = '2027-03-14';
 export const ROADMAP_END_DATE = '2027-03-15';

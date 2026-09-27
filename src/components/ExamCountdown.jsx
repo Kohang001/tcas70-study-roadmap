@@ -1,6 +1,6 @@
 import React from 'react';
 import { Calendar, Clock, Award, CheckCircle } from 'lucide-react';
-import { EXAMS, TGAT_TPAT3_EXAM_DATE, ALEVEL_EXAM_DATE } from '../data/exams';
+import { EXAMS, TGAT_TPAT3_EXAM_DATE, ALEVEL_START_DATE, ALEVEL_END_DATE } from '../data/exams';
 import { getDaysRemaining } from '../utils/dateUtils';
 
 export default function ExamCountdown({ activeToday }) {
@@ -8,13 +8,16 @@ export default function ExamCountdown({ activeToday }) {
   const alevelExam = EXAMS.find(e => e.id === 'alevel');
 
   const daysToTgat = getDaysRemaining(TGAT_TPAT3_EXAM_DATE, activeToday);
-  const daysToAlevel = getDaysRemaining(ALEVEL_EXAM_DATE, activeToday);
+  const daysToAlevel = getDaysRemaining(ALEVEL_START_DATE, activeToday);
 
   const isTgatToday = activeToday === TGAT_TPAT3_EXAM_DATE;
   const isTgatPassed = activeToday > TGAT_TPAT3_EXAM_DATE;
 
-  const isAlevelToday = activeToday === ALEVEL_EXAM_DATE;
-  const isAlevelPassed = activeToday > ALEVEL_EXAM_DATE;
+  const isAlevelInProgress =
+    activeToday >= ALEVEL_START_DATE &&
+    activeToday <= ALEVEL_END_DATE;
+
+  const isAlevelPassed = activeToday > ALEVEL_END_DATE;
 
   return (
     <div className="countdown-grid">
@@ -64,10 +67,14 @@ export default function ExamCountdown({ activeToday }) {
         </div>
 
         <div className="countdown-days">
-          {isAlevelToday ? (
+          {isAlevelInProgress ? (
             <div style={{ textAlign: 'right' }}>
-              <span className="countdown-number" style={{ fontSize: '1.8rem', color: '#FDE047' }}>วันนี้</span>
-              <span className="countdown-label">สนามสอบจริง! 🎯</span>
+              <span className="countdown-number" style={{ fontSize: '1.6rem', color: '#FDE047' }}>กำลังสอบ</span>
+              <span className="countdown-label">
+                {activeToday === ALEVEL_START_DATE
+                  ? 'Physics วันนี้ 🎯'
+                  : 'Math1 + English วันนี้ 🎯'}
+              </span>
             </div>
           ) : isAlevelPassed ? (
             <div style={{ textAlign: 'right', display: 'flex', alignItems: 'center', gap: '6px' }}>
