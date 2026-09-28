@@ -12,7 +12,6 @@ export const SUBJECTS = {
     badgeText: '#1E40AF',
     borderColor: 'rgba(37, 99, 235, 0.25)',
     icon: 'MessageSquare',
-    targetScore: '80+',
     focus: 'เน้นความคล่องแคล่วในการสนทนาและทักษะการอ่านเร็วเพื่อประหยัดเวลา',
     description: 'ครอบคลุมบทสนทนาสั้น-ยาว, การตอบคำถามเชิงสถานการณ์, เติมคำในบทความ และการอ่านจับใจความ',
     priorityTopics: [
@@ -52,7 +51,6 @@ export const SUBJECTS = {
     badgeText: '#5B21B6',
     borderColor: 'rgba(124, 58, 237, 0.25)',
     icon: 'Brain',
-    targetScore: '75+',
     focus: 'เน้นความเร็วในการมอง Pattern และการวิเคราะห์ตัดชอยส์อย่างแม่นยำ',
     description: 'ครอบคลุมความสามารถทางตัวเลข, ภาษา, มิติสัมพันธ์ และการคิดเชิงตรรกะ',
     priorityTopics: [
@@ -85,7 +83,6 @@ export const SUBJECTS = {
     badgeText: '#9D174D',
     borderColor: 'rgba(219, 39, 119, 0.25)',
     icon: 'Sparkles',
-    targetScore: '80+',
     focus: 'เข้าใจ Mindset การทำงานยุคใหม่และการเลือก Action ที่สร้าง Value สูงสุด',
     description: 'ประเมิน 4 ด้าน: การสร้างคุณค่าและนวัตกรรม, การแก้ปัญหาที่ซับซ้อน, การบริหารอารมณ์ และการมีส่วนร่วมของพลเมือง',
     priorityTopics: [
@@ -124,7 +121,6 @@ export const SUBJECTS = {
     badgeText: '#9A3412',
     borderColor: 'rgba(234, 88, 12, 0.25)',
     icon: 'Cog',
-    targetScore: '70+',
     focus: 'ความเร็วในการคำนวณเชิงวิศวะ มิติสัมพันธ์ และความเข้าใจกลไกฟิสิกส์พื้นฐาน',
     description: 'ทดสอบการคิดเชิงตัวเลข, มิติสัมพันธ์, เหตุผลเชิงกลศาสตร์และฟิสิกส์, ความคิดเชิงวิทยาศาสตร์และเทคโนโลยี',
     priorityTopics: [
@@ -158,7 +154,6 @@ export const SUBJECTS = {
     badgeText: '#991B1B',
     borderColor: 'rgba(220, 38, 38, 0.25)',
     icon: 'Calculator',
-    targetScore: '65+',
     focus: 'เก็บหัวข้อ High-Yield ให้ครบก่อน (สถิติ, ฟังก์ชัน, แคลคูลัส, ความน่าจะเป็น)',
     description: 'วิชาคัดกรองสำคัญของสายวิทย์และพาณิชย์ เน้นความแม่นยำและการประยุกต์โจทย์ซับซ้อน',
     priorityTopics: [
@@ -199,7 +194,6 @@ export const SUBJECTS = {
     badgeText: '#075985',
     borderColor: 'rgba(2, 132, 199, 0.25)',
     icon: 'Atom',
-    targetScore: '65+',
     focus: 'เข้าใจ Concept หลัก วาด Free Body Diagram ให้แม่นยำ และมองภาพกราฟออก',
     description: 'ครอบคลุมกลศาสตร์ ไฟฟ้า คลื่น แสง เสียง ความร้อน และฟิสิกส์ยุคใหม่',
     priorityTopics: [
@@ -246,7 +240,6 @@ export const SUBJECTS = {
     badgeText: '#065F46',
     borderColor: 'rgba(5, 150, 105, 0.25)',
     icon: 'BookOpen',
-    targetScore: '75+',
     focus: 'เก็บศัพท์วันละ 15-20 คำ อ่านจับใจความรวดเร็ว และเข้าใจการเชื่อมโยง Paragraph',
     description: 'เน้น Reading Comprehension เชิงวิชาการ, Vocabulary ในบริบท, Text Completion และ Paragraph Organization',
     priorityTopics: [

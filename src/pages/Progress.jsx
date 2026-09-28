@@ -286,6 +286,8 @@ export default function Progress({
               ALL_DAILY_PLANS,
               subtaskStates,
             );
+
+            const targetScore = targetScores?.[subject.code] ?? null;
             return (
               <div
                 key={subject.id}
@@ -361,6 +363,21 @@ export default function Progress({
                   height={8}
                   color={subject.color}
                 />
+
+                {targetScore !== null && (
+                  <div
+                    style={{
+                      marginTop: "8px",
+                      fontSize: "0.8rem",
+                      color: "var(--text-muted)",
+                    }}
+                  >
+                    🎯 เป้าหมายคะแนน{" "}
+                    <strong style={{ color: "var(--text-main)" }}>
+                      {targetScore}/100
+                    </strong>
+                  </div>
+                )}
               </div>
             );
           })}

@@ -116,7 +116,7 @@ export default function Subjects({ subtaskStates, targetScores }) {
                       borderRadius: "var(--radius-full)",
                     }}
                   >
-                    เป้าหมาย {subject.targetScore}
+                    เป้าหมาย {targetScores?.[subject.code] ?? "-"} / 100
                   </span>
                 </div>
 
