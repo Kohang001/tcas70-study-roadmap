@@ -3218,8 +3218,8 @@ const WEEKLY_STUDY_TARGETS = [
     totalMinutes: 1080, // 18 ชั่วโมง
     mix: {
       exam: 60,
-      math: 18,
-      physics: 17,
+      math: 20,
+      physics: 15,
       english: 5,
     },
   },
@@ -3231,9 +3231,9 @@ const WEEKLY_STUDY_TARGETS = [
     totalMinutes: 1200, // 20 ชั่วโมง
     mix: {
       exam: 70,
-      math: 12,
-      physics: 12,
-      english: 6,
+      math: 15,
+      physics: 10,
+      english: 5,
     },
   },
 
@@ -3244,9 +3244,9 @@ const WEEKLY_STUDY_TARGETS = [
     totalMinutes: 1200,
     mix: {
       exam: 80,
-      math: 8,
-      physics: 8,
-      english: 4,
+      math: 7,
+      physics: 7,
+      english: 6,
     },
   },
 
@@ -3760,6 +3760,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
     }
   }
   switch (dayOfWeek) {
+    // Monday
     case 1:
       return [
         createGeneratedTask(
@@ -3769,8 +3770,21 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
           duration.exam,
           "Timed Practice",
         ),
+
+        ...(maintenanceMode
+          ? [
+              createGeneratedTask(
+                dateStr,
+                "Math1",
+                profile.math,
+                duration.math,
+                "A-Level Maintenance",
+              ),
+            ]
+          : []),
       ];
 
+    // Tuesday
     case 2:
       return [
         createGeneratedTask(
@@ -3780,8 +3794,21 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
           duration.exam,
           "Timed Practice",
         ),
+
+        ...(maintenanceMode
+          ? [
+              createGeneratedTask(
+                dateStr,
+                "Physics",
+                profile.physics,
+                duration.physics,
+                "A-Level Maintenance",
+              ),
+            ]
+          : []),
       ];
 
+    // Wednesday
     case 3:
       return [
         createGeneratedTask(
@@ -3791,6 +3818,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
           duration.exam,
           "Timed Practice",
         ),
+
         createGeneratedTask(
           dateStr,
           "TGAT3",
@@ -3800,6 +3828,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
         ),
       ];
 
+    // Thursday
     case 4:
       return [
         createGeneratedTask(
@@ -3809,8 +3838,21 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
           duration.exam,
           "Mechanical / Engineering",
         ),
+
+        ...(maintenanceMode
+          ? [
+              createGeneratedTask(
+                dateStr,
+                "Physics",
+                profile.physics,
+                duration.physics,
+                "A-Level Maintenance",
+              ),
+            ]
+          : []),
       ];
 
+    // Friday
     case 5:
       return [
         createGeneratedTask(
@@ -3820,6 +3862,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
           duration.exam,
           "Review",
         ),
+
         createGeneratedTask(
           dateStr,
           "TPAT3",
@@ -3827,8 +3870,29 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
           duration.exam,
           "Review",
         ),
+
+        ...(maintenanceMode
+          ? [
+              createGeneratedTask(
+                dateStr,
+                "Math1",
+                profile.math,
+                duration.math,
+                "A-Level Maintenance",
+              ),
+
+              createGeneratedTask(
+                dateStr,
+                "English",
+                profile.english,
+                duration.english,
+                "Light Review",
+              ),
+            ]
+          : []),
       ];
 
+    // Saturday
     case 6:
       return [
         createGeneratedTask(
@@ -3840,6 +3904,7 @@ function buildFinalTgatTasks(dateStr, dayOfWeek, profile, week) {
         ),
       ];
 
+    // Sunday
     case 0:
       return [
         createGeneratedTask(
