@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  CalendarDays,
-  ChevronLeft,
-  ChevronRight,
-  Target
-} from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight, Target } from "lucide-react";
 import WeekCard from "../components/WeekCard";
 import ProgressBar from "../components/ProgressBar";
 import {
@@ -13,14 +8,26 @@ import {
   getDaysOfWeek,
   formatShortThaiDate,
   addDays,
-  getWeekIndex
-} from '../utils/dateUtils';
+  getWeekIndex,
+} from "../utils/dateUtils";
 import { getSmartPlanForDate } from "../data/studyPlan";
 import { WEEK_PROFILES } from "../data/weekProfiles";
 import { getWeekProgress } from "../utils/progressUtils";
 
 const ROADMAP_FIRST_MONDAY = "2026-09-28";
 const ROADMAP_LAST_MONDAY = "2027-03-08";
+
+function clampRoadmapMonday(monday) {
+  if (monday < ROADMAP_FIRST_MONDAY) {
+    return ROADMAP_FIRST_MONDAY;
+  }
+
+  if (monday > ROADMAP_LAST_MONDAY) {
+    return ROADMAP_LAST_MONDAY;
+  }
+
+  return monday;
+}
 
 export default function WeeklyPlan({
   activeToday,
@@ -30,7 +37,7 @@ export default function WeeklyPlan({
   const navigate = useNavigate();
 
   // Active Monday of displayed week
-  const initialMonday = getMondayOfWeek(activeToday);
+  const initialMonday = clampRoadmapMonday(getMondayOfWeek(activeToday));
   const [currentMonday, setCurrentMonday] = useState(initialMonday);
 
   const daysInWeek = getDaysOfWeek(currentMonday);
@@ -79,7 +86,7 @@ export default function WeeklyPlan({
   };
 
   const handleCurrentWeek = () => {
-    setCurrentMonday(getMondayOfWeek(activeToday));
+    setCurrentMonday(clampRoadmapMonday(getMondayOfWeek(activeToday)));
   };
 
   const handleSelectDay = (dateStr) => {
