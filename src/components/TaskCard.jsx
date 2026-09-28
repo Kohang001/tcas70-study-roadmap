@@ -4,11 +4,9 @@ import {
   Check, 
   ChevronDown, 
   ChevronUp, 
-  CheckCircle2, 
-  Circle, 
+  CheckCircle2,
   Edit3, 
   AlertCircle,
-  Sparkles
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import SubjectBadge from './SubjectBadge';

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Calendar, ChevronDown, ChevronUp, ArrowRight, Target } from 'lucide-react';
+import { ChevronDown, ChevronUp, ArrowRight} from 'lucide-react';
 import ProgressBar from './ProgressBar';
 import { ALL_DAILY_PLANS } from '../data/studyPlan';
 import { getDayProgress } from '../utils/progressUtils';
-import SubjectBadge from './SubjectBadge';
 
 export default function MonthCard({
   monthMeta,

@@ -1,10 +1,9 @@
 import React from 'react';
-import { Menu, Flame, Calendar, RotateCcw } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { formatThaiDate } from '../utils/dateUtils';
 
 export default function Header({
   activeToday,
-  realTodayStr,
   simulatedDate,
   onResetSimulatedDate,
   streak = 0,

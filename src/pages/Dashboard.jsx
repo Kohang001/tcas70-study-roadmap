@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Flame,
-  Calendar,
   CheckCircle2,
   ArrowRight,
   Sparkles,
   BookOpen,
   AlertCircle,
-  Clock,
-  Coffee,
 } from "lucide-react";
 import ExamCountdown from "../components/ExamCountdown";
 import TodayCard from "../components/TodayCard";
@@ -24,14 +20,10 @@ import { getDayProgress } from "../utils/progressUtils";
 
 export default function Dashboard({
   activeToday,
-  realTodayStr,
-  autoLockToday,
   streak,
   subtaskStates,
-  taskNotes,
   dailyNotes,
   onToggleSubtask,
-  onSaveTaskNote,
   onAddErrorLog,
   onSelectDate,
   studentName,
@@ -137,6 +129,7 @@ export default function Dashboard({
       {/* If Exam Day, show special exam banner */}
       {isExamDay && (
         <ExamDayScreen
+          key={activeToday}
           examTitle={todayPlan.examType}
           dateThai={formatThaiDate(activeToday, false)}
           examDate={activeToday}

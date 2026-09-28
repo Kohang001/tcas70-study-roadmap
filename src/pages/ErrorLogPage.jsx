@@ -1,15 +1,5 @@
 import React, { useState } from "react";
-import {
-  AlertCircle,
-  Plus,
-  Search,
-  Trash2,
-  Edit3,
-  Filter,
-  Calendar,
-  BookOpen,
-  CheckCircle2,
-} from "lucide-react";
+import { Plus, Search, Trash2, Edit3, Filter, Calendar } from "lucide-react";
 import SubjectBadge from "../components/SubjectBadge";
 import ErrorModal from "../components/ErrorModal";
 import EmptyState from "../components/EmptyState";
@@ -40,12 +30,19 @@ export default function ErrorLogPage({
     setModalOpen(true);
   };
 
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setEditingLog(null);
+  };
+
   const handleSave = (logData) => {
     if (editingLog) {
       onUpdateErrorLog(editingLog.id, logData);
     } else {
       onAddErrorLog(logData);
     }
+
+    handleCloseModal();
   };
 
   // Filter logs
@@ -661,13 +658,15 @@ export default function ErrorLogPage({
       )}
 
       {/* Add / Edit Modal */}
-      <ErrorModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSave={handleSave}
-        initialData={editingLog}
-        activeDate={activeDate}
-      />
+      {modalOpen && (
+        <ErrorModal
+          isOpen={true}
+          onClose={handleCloseModal}
+          onSave={handleSave}
+          initialData={editingLog}
+          activeDate={activeDate}
+        />
+      )}
     </div>
   );
 }

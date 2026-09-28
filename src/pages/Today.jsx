@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import {
-  Calendar,
   ChevronLeft,
   ChevronRight,
-  Filter,
-  CheckCircle2,
-  Sparkles,
   BookOpen,
   Save,
   RotateCcw,
-  AlertCircle,
 } from "lucide-react";
 import TaskCard from "../components/TaskCard";
 import ProgressBar from "../components/ProgressBar";
@@ -23,8 +18,6 @@ import { SUBJECT_LIST } from "../data/subjects";
 
 export default function Today({
   activeToday,
-  realTodayStr,
-  autoLockToday,
   subtaskStates,
   taskNotes,
   dailyNotes,
@@ -33,27 +26,22 @@ export default function Today({
   onSaveDailyNote,
   onSaveTaskNote,
   onAddErrorLog,
-  onSelectDate,
   onResetToday,
   onLockToRealToday,
 }) {
-  const [selectedDate, setSelectedDate] = useState(activeToday);
+  const [selectedDate, setSelectedDate] = React.useState(activeToday);
   const [statusFilter, setStatusFilter] = useState("all"); // 'all', 'not_started', 'in_progress', 'completed'
   const [subjectFilter, setSubjectFilter] = useState("all");
-  const [noteText, setNoteText] = useState(dailyNotes[selectedDate] || "");
+  const [noteText, setNoteText] = React.useState(
+    () => dailyNotes[activeToday] || "",
+  );
+  const changeSelectedDate = (nextDate) => {
+    setSelectedDate(nextDate);
+    setNoteText(dailyNotes[nextDate] || "");
+  };
   const [noteSavedFeedback, setNoteSavedFeedback] = useState(false);
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const [errorModalInitial, setErrorModalInitial] = useState(null);
-
-  // Automatically keep selectedDate in sync with activeToday
-  React.useEffect(() => {
-    setSelectedDate(activeToday);
-  }, [activeToday]);
-
-  // Sync noteText when date changes
-  React.useEffect(() => {
-    setNoteText(dailyNotes[selectedDate] || "");
-  }, [selectedDate, dailyNotes]);
 
   const currentPlan = getSmartPlanForDate(selectedDate);
   const allTasks = currentPlan ? currentPlan.tasks : [];
@@ -96,19 +84,18 @@ export default function Today({
   const progress = getDayProgress(allTasks, subtaskStates);
   const isExamDay = currentPlan && currentPlan.isExamDay;
   const hasAfterExamTasks = isExamDay && allTasks.length > 0;
-  const isPostExam = currentPlan && currentPlan.isPostExam;
   const isBrowsingOtherDay = selectedDate !== activeToday;
 
   const handlePrevDay = () => {
-    setSelectedDate((prev) => addDays(prev, -1));
+    changeSelectedDate((prev) => addDays(prev, -1));
   };
 
   const handleNextDay = () => {
-    setSelectedDate((prev) => addDays(prev, 1));
+    changeSelectedDate((prev) => addDays(prev, 1));
   };
 
   const handleBackToToday = () => {
-    setSelectedDate(activeToday);
+    changeSelectedDate(activeToday);
     if (onLockToRealToday) {
       onLockToRealToday();
     }
@@ -353,6 +340,7 @@ export default function Today({
       {/* If Exam Day, show special exam banner */}
       {isExamDay && (
         <ExamDayScreen
+          key={selectedDate}
           examTitle={currentPlan.examType}
           dateThai={formatThaiDate(selectedDate, false)}
           examDate={selectedDate}

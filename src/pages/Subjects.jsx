@@ -1,19 +1,8 @@
 import React, { useState } from "react";
-import {
-  BookOpen,
-  CheckCircle2,
-  Clock,
-  Award,
-  ChevronRight,
-  X,
-  Star,
-  AlertCircle,
-  Sparkles,
-  ArrowRight,
-} from "lucide-react";
+import { ChevronRight, X, Star } from "lucide-react";
 import SubjectBadge from "../components/SubjectBadge";
 import ProgressBar from "../components/ProgressBar";
-import { SUBJECT_LIST, SUBJECTS } from "../data/subjects";
+import { SUBJECT_LIST } from "../data/subjects";
 import { ALL_DAILY_PLANS } from "../data/studyPlan";
 import { getSubjectProgress } from "../utils/progressUtils";
 

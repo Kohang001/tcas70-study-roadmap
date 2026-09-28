@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, Calendar, Coffee } from 'lucide-react';
+import { Coffee } from 'lucide-react';
 
 export default function EmptyState({
   title = 'ไม่มีงานอ่านในวันนี้ 🎉',

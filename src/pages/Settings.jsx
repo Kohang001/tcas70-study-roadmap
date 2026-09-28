@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import {
-  Settings as SettingsIcon,
   RotateCcw,
   Download,
   Upload,
@@ -8,8 +7,6 @@ import {
   User,
   Calendar,
   HelpCircle,
-  Sparkles,
-  CheckCircle2,
   AlertTriangle,
 } from "lucide-react";
 import { formatThaiDate } from "../utils/dateUtils";
@@ -20,7 +17,6 @@ export default function Settings({
   activeToday,
   realTodayStr,
   simulatedDate,
-  autoLockToday,
   onLockToRealToday,
   setSimulatedDate,
   onResetToday,
@@ -58,7 +54,7 @@ export default function Settings({
         } else {
           alert(`เกิดข้อผิดพลาดในการนำเข้าข้อมูล: ${res.error}`);
         }
-      } catch (err) {
+      } catch {
         alert("ไฟล์ JSON ไม่ถูกต้อง กรุณาตรวจสอบไฟล์");
       }
     };

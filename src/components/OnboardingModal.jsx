@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, Calendar, CheckCircle2, ChevronRight, Rocket, Compass, BookOpen } from 'lucide-react';
+import {Calendar, CheckCircle2, ChevronRight, Rocket, Compass} from 'lucide-react';
 import confetti from 'canvas-confetti';
 
 const STEPS = [

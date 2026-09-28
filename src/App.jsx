@@ -24,7 +24,6 @@ import Settings from "./pages/Settings";
 import useTargetScores from "./hooks/useTargetScores";
 import { useStudyProgress } from "./hooks/useStudyProgress";
 import { getSmartPlanForDate } from "./data/studyPlan";
-import "./styles/App.css";
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -115,7 +114,6 @@ export default function App() {
         <div className="main-content">
           <Header
             activeToday={activeToday}
-            realTodayStr={realTodayStr}
             simulatedDate={simulatedDate}
             autoLockToday={autoLockToday}
             onResetSimulatedDate={handleResetSimulatedDate}
@@ -131,14 +129,10 @@ export default function App() {
                 element={
                   <Dashboard
                     activeToday={activeToday}
-                    realTodayStr={realTodayStr}
-                    autoLockToday={autoLockToday}
                     streak={streak}
                     subtaskStates={subtaskStates}
-                    taskNotes={taskNotes}
                     dailyNotes={dailyNotes}
                     onToggleSubtask={toggleSubtask}
-                    onSaveTaskNote={saveTaskNote}
                     onAddErrorLog={addErrorLog}
                     onSelectDate={handleSelectDate}
                     onLockToRealToday={lockToRealToday}
@@ -151,9 +145,8 @@ export default function App() {
                 path="/today"
                 element={
                   <Today
+                    key={activeToday}
                     activeToday={activeToday}
-                    realTodayStr={realTodayStr}
-                    autoLockToday={autoLockToday}
                     subtaskStates={subtaskStates}
                     taskNotes={taskNotes}
                     dailyNotes={dailyNotes}
@@ -162,7 +155,6 @@ export default function App() {
                     onSaveDailyNote={saveDailyNote}
                     onSaveTaskNote={saveTaskNote}
                     onAddErrorLog={addErrorLog}
-                    onSelectDate={handleSelectDate}
                     onResetToday={resetToday}
                     onLockToRealToday={lockToRealToday}
                   />
@@ -204,7 +196,6 @@ export default function App() {
                 path="/progress"
                 element={
                   <Progress
-                    activeToday={activeToday}
                     streak={streak}
                     subtaskStates={subtaskStates}
                     targetScores={targetScores}
@@ -234,7 +225,6 @@ export default function App() {
                     activeToday={activeToday}
                     realTodayStr={realTodayStr}
                     simulatedDate={simulatedDate}
-                    autoLockToday={autoLockToday}
                     onLockToRealToday={lockToRealToday}
                     setSimulatedDate={setSimulatedDate}
                     onResetToday={resetToday}

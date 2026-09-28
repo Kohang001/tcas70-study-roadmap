@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Check, Sparkles, Heart } from "lucide-react";
 import { EXAM_DAY_CHECKLIST } from "../data/exams";
 import confetti from "canvas-confetti";
@@ -22,10 +22,6 @@ export default function ExamDayScreen({
   const [checkedItems, setCheckedItems] = useState(() =>
     loadChecklist(storageKey),
   );
-
-  useEffect(() => {
-    setCheckedItems(loadChecklist(storageKey));
-  }, [storageKey]);
 
   const toggleCheck = (id) => {
     setCheckedItems((prev) => {

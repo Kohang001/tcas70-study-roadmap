@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { X, AlertCircle, Save } from "lucide-react";
 import { SUBJECT_LIST } from "../data/subjects";
 import { ERROR_TYPES } from "../data/errorTypes";
@@ -10,39 +10,23 @@ export default function ErrorModal({
   initialData = null,
   activeDate = "2026-09-28",
 }) {
-  const [subject, setSubject] = useState("Physics");
-  const [errorType, setErrorType] = useState("concept");
-  const [topic, setTopic] = useState("");
-  const [questionDesc, setQuestionDesc] = useState("");
-  const [whyWrong, setWhyWrong] = useState("");
-  const [solution, setSolution] = useState("");
-  const [date, setDate] = useState(activeDate);
+  const [subject, setSubject] = useState(initialData?.subject || "Physics");
 
-  useEffect(() => {
-    if (initialData) {
-      setSubject(initialData.subject || "Physics");
+  const [errorType, setErrorType] = useState(
+    initialData?.errorType || (initialData ? "other" : "concept"),
+  );
 
-      // Error Log เก่าที่ไม่มีประเภท ให้จัดเป็น Other
-      setErrorType(initialData.errorType || "other");
+  const [topic, setTopic] = useState(initialData?.topic || "");
 
-      setTopic(initialData.topic || "");
-      setQuestionDesc(initialData.questionDesc || "");
-      setWhyWrong(initialData.whyWrong || "");
-      setSolution(initialData.solution || "");
-      setDate(initialData.date || activeDate);
-    } else {
-      setSubject("Physics");
+  const [questionDesc, setQuestionDesc] = useState(
+    initialData?.questionDesc || "",
+  );
 
-      // Error Log ใหม่ เริ่มต้นที่ Concept
-      setErrorType("concept");
+  const [whyWrong, setWhyWrong] = useState(initialData?.whyWrong || "");
 
-      setTopic("");
-      setQuestionDesc("");
-      setWhyWrong("");
-      setSolution("");
-      setDate(activeDate);
-    }
-  }, [initialData, activeDate, isOpen]);
+  const [solution, setSolution] = useState(initialData?.solution || "");
+
+  const [date, setDate] = useState(initialData?.date || activeDate);
 
   if (!isOpen) return null;
 

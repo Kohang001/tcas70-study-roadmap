@@ -1,5 +1,8 @@
 import { useCallback, useState } from "react";
-import { DEFAULT_TARGET_SCORES } from "../data/targetScores";
+import {
+  DEFAULT_TARGET_SCORES,
+  TARGET_SCORE_LIMITS,
+} from "../data/targetScores";
 
 const STORAGE_KEY = "tcas70_target_scores";
 
@@ -33,7 +36,10 @@ export default function useTargetScores() {
       return;
     }
 
-    const safeScore = Math.min(100, Math.max(0, numericScore));
+    const safeScore = Math.min(
+      TARGET_SCORE_LIMITS.max,
+      Math.max(TARGET_SCORE_LIMITS.min, numericScore),
+    );
 
     setTargetScores((prev) => {
       const next = {
@@ -64,7 +70,10 @@ export default function useTargetScores() {
       const numericScore = Number(scores[subject]);
 
       normalizedScores[subject] = Number.isFinite(numericScore)
-        ? Math.min(100, Math.max(0, numericScore))
+        ? Math.min(
+            TARGET_SCORE_LIMITS.max,
+            Math.max(TARGET_SCORE_LIMITS.min, numericScore),
+          )
         : defaultScore;
     });
 

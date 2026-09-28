@@ -14,8 +14,6 @@ const THAI_DAYS = [
   'วันอาทิตย์', 'วันจันทร์', 'วันอังคาร', 'วันพุธ', 'วันพฤหัสบดี', 'วันศุกร์', 'วันเสาร์'
 ];
 
-const THAI_DAYS_SHORT = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
-
 export function parseDate(dateInput) {
   if (!dateInput) return new Date();
   if (typeof dateInput === 'string') {

@@ -4138,28 +4138,6 @@ export function getSmartPlanForDate(dateStr) {
     return normalizedPlan;
   }
 
-  // If outside explicit daily plans, generate appropriate weekly template based on phase
-  const targetDate = new Date(dateStr);
-  const dayOfWeek = targetDate.getDay(); // 0 is Sunday, 1 is Monday
-  const dayNames = [
-    "อาทิตย์",
-    "จันทร์",
-    "อังคาร",
-    "พุธ",
-    "พฤหัสบดี",
-    "ศุกร์",
-    "เสาร์",
-  ];
-  const dayEng = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
   // หลังสอบทุกสนาม
   if (dateStr >= "2027-03-15") {
     return {

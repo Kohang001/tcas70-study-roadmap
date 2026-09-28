@@ -8,8 +8,7 @@ import {
   BookOpen, 
   BarChart3, 
   AlertCircle, 
-  Settings,
-  Flame,
+  Settings, 
   Sparkles,
   X
 } from 'lucide-react';

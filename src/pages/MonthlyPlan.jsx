@@ -1,6 +1,5 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Map, Calendar, Target, Award, Sparkles } from 'lucide-react';
 import MonthCard from '../components/MonthCard';
 import { MONTH_ROADMAP_META } from '../data/studyPlan';
 

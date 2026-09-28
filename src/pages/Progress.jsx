@@ -1,24 +1,18 @@
 import React from "react";
 import {
-  BarChart3,
   Flame,
   Award,
   CheckCircle2,
   Target,
-  Sparkles,
-  BookOpen,
   TrendingUp,
-  Clock,
 } from "lucide-react";
 import ProgressBar from "../components/ProgressBar";
 import SubjectBadge from "../components/SubjectBadge";
 import { SUBJECT_LIST } from "../data/subjects";
 import { ALL_DAILY_PLANS } from "../data/studyPlan";
 import { getSubjectProgress, getDayProgress } from "../utils/progressUtils";
-import { formatThaiDate } from "../utils/dateUtils";
 
 export default function Progress({
-  activeToday,
   streak,
   subtaskStates,
   targetScores,
