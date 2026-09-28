@@ -4051,17 +4051,26 @@ export function getPlanForDate(dateStr) {
 // Generate fallback schedule if date is between phases or template based
 export function getSmartPlanForDate(dateStr) {
   const directPlan = getPlanForDate(dateStr);
+
   if (directPlan) {
-    // If after Jan 30, 2027, filter out TGAT and TPAT3 automatically!
+    const normalizedPlan = {
+      ...directPlan,
+      week: getRoadmapWeek(dateStr),
+    };
+
+    // หลังสอบ TGAT / TPAT3 แล้ว
+    // ไม่ควรมีงานของ TGAT1, TGAT2, TGAT3 หรือ TPAT3 เหลืออยู่
     if (dateStr > "2027-01-30") {
       return {
-        ...directPlan,
-        tasks: directPlan.tasks.filter(
-          (t) => !["TGAT1", "TGAT2", "TGAT3", "TPAT3"].includes(t.subject),
+        ...normalizedPlan,
+        tasks: normalizedPlan.tasks.filter(
+          (task) =>
+            !["TGAT1", "TGAT2", "TGAT3", "TPAT3"].includes(task.subject),
         ),
       };
     }
-    return directPlan;
+
+    return normalizedPlan;
   }
 
   // If outside explicit daily plans, generate appropriate weekly template based on phase
