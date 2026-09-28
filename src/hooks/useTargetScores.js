@@ -1,7 +1,7 @@
-import { useCallback, useState } from 'react';
-import { DEFAULT_TARGET_SCORES } from '../data/targetScores';
+import { useCallback, useState } from "react";
+import { DEFAULT_TARGET_SCORES } from "../data/targetScores";
 
-const STORAGE_KEY = 'tcas70_target_scores';
+const STORAGE_KEY = "tcas70_target_scores";
 
 function loadTargetScores() {
   try {
@@ -18,44 +18,34 @@ function loadTargetScores() {
       ...parsed,
     };
   } catch (error) {
-    console.error('Failed to load target scores:', error);
+    console.error("Failed to load target scores:", error);
     return DEFAULT_TARGET_SCORES;
   }
 }
 
 export default function useTargetScores() {
-  const [targetScores, setTargetScores] =
-    useState(loadTargetScores);
+  const [targetScores, setTargetScores] = useState(loadTargetScores);
 
-  const updateTargetScore = useCallback(
-    (subject, score) => {
-      const numericScore = Number(score);
+  const updateTargetScore = useCallback((subject, score) => {
+    const numericScore = Number(score);
 
-      if (Number.isNaN(numericScore)) {
-        return;
-      }
+    if (Number.isNaN(numericScore)) {
+      return;
+    }
 
-      const safeScore = Math.min(
-        100,
-        Math.max(0, numericScore)
-      );
+    const safeScore = Math.min(100, Math.max(0, numericScore));
 
-      setTargetScores((prev) => {
-        const next = {
-          ...prev,
-          [subject]: safeScore,
-        };
+    setTargetScores((prev) => {
+      const next = {
+        ...prev,
+        [subject]: safeScore,
+      };
 
-        localStorage.setItem(
-          STORAGE_KEY,
-          JSON.stringify(next)
-        );
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
 
-        return next;
-      });
-    },
-    []
-  );
+      return next;
+    });
+  }, []);
 
   const resetTargetScores = useCallback(() => {
     const defaults = {
@@ -64,15 +54,29 @@ export default function useTargetScores() {
 
     setTargetScores(defaults);
 
-    localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify(defaults)
-    );
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaults));
+  }, []);
+
+  const replaceTargetScores = useCallback((scores = {}) => {
+    const normalizedScores = {};
+
+    Object.entries(DEFAULT_TARGET_SCORES).forEach(([subject, defaultScore]) => {
+      const numericScore = Number(scores[subject]);
+
+      normalizedScores[subject] = Number.isFinite(numericScore)
+        ? Math.min(100, Math.max(0, numericScore))
+        : defaultScore;
+    });
+
+    setTargetScores(normalizedScores);
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(normalizedScores));
   }, []);
 
   return {
     targetScores,
     updateTargetScore,
     resetTargetScores,
+    replaceTargetScores,
   };
 }

@@ -30,8 +30,12 @@ export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showOnboardingManual, setShowOnboardingManual] = useState(false);
 
-  const { targetScores, updateTargetScore, resetTargetScores } =
-    useTargetScores();
+  const {
+    targetScores,
+    updateTargetScore,
+    resetTargetScores,
+    replaceTargetScores,
+  } = useTargetScores();
 
   const {
     realTodayStr,
@@ -72,6 +76,26 @@ export default function App() {
 
   const handleResetSimulatedDate = () => {
     lockToRealToday();
+  };
+
+  const handleExportData = () => {
+    exportData({
+      targetScores,
+    });
+  };
+
+  const handleImportData = (jsonData) => {
+    const result = importData(jsonData);
+
+    if (!result.success) {
+      return result;
+    }
+
+    if (jsonData.targetScores && typeof jsonData.targetScores === "object") {
+      replaceTargetScores(jsonData.targetScores);
+    }
+
+    return result;
   };
 
   const isFirstRun = !onboarded;
@@ -215,8 +239,8 @@ export default function App() {
                     setSimulatedDate={setSimulatedDate}
                     onResetToday={resetToday}
                     onResetAll={resetAll}
-                    onExportData={exportData}
-                    onImportData={importData}
+                    onExportData={handleExportData}
+                    onImportData={handleImportData}
                     onReplayOnboarding={() => setShowOnboardingManual(true)}
                     targetScores={targetScores}
                     onUpdateTargetScore={updateTargetScore}

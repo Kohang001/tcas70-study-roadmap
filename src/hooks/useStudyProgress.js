@@ -13,6 +13,7 @@ const STORAGE_KEYS = {
   STUDENT_NAME: "tcas70_student_name",
 };
 
+const EXAM_CHECKLIST_PREFIX = "tcas70_exam_checklist_";
 const DEFAULT_ERROR_LOGS = [];
 
 function loadFromStorage(key, fallback) {
@@ -33,6 +34,55 @@ function saveToStorage(key, value) {
   } catch (e) {
     console.error(`Error saving ${key} to localStorage:`, e);
   }
+}
+
+function collectExamChecklists() {
+  const checklists = {};
+
+  Object.keys(localStorage).forEach((key) => {
+    if (!key.startsWith(EXAM_CHECKLIST_PREFIX)) {
+      return;
+    }
+
+    const examDate = key.slice(EXAM_CHECKLIST_PREFIX.length);
+
+    try {
+      const saved = localStorage.getItem(key);
+
+      if (saved) {
+        checklists[examDate] = JSON.parse(saved);
+      }
+    } catch (error) {
+      console.error(`Failed to export exam checklist ${examDate}:`, error);
+    }
+  });
+
+  return checklists;
+}
+
+function restoreExamChecklists(checklists) {
+  if (
+    !checklists ||
+    typeof checklists !== "object" ||
+    Array.isArray(checklists)
+  ) {
+    return;
+  }
+
+  // ล้าง checklist ปัจจุบันก่อน
+  Object.keys(localStorage).forEach((key) => {
+    if (key.startsWith(EXAM_CHECKLIST_PREFIX)) {
+      localStorage.removeItem(key);
+    }
+  });
+
+  // คืนค่าจาก backup
+  Object.entries(checklists).forEach(([examDate, checklist]) => {
+    localStorage.setItem(
+      `${EXAM_CHECKLIST_PREFIX}${examDate}`,
+      JSON.stringify(checklist),
+    );
+  });
 }
 
 export function useStudyProgress() {
@@ -266,36 +316,37 @@ export function useStudyProgress() {
   }, []);
 
   // Export JSON
-  const exportData = useCallback(() => {
-    const data = {
-      version: "1.0",
-      exportDate: new Date().toISOString(),
-      studentName,
-      subtaskStates,
-      dailyNotes,
-      taskNotes,
-      errorLogs,
-    };
+  const exportData = useCallback(
+    (extraData = {}) => {
+      const data = {
+        version: "2.0",
+        exportDate: new Date().toISOString(),
 
-    const blob = new Blob([JSON.stringify(data, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `tcas70-study-data-${activeToday}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  }, [
-    studentName,
-    subtaskStates,
-    dailyNotes,
-    taskNotes,
-    errorLogs,
-    activeToday,
-  ]);
+        studentName,
+        subtaskStates,
+        dailyNotes,
+        taskNotes,
+        errorLogs,
+
+        examChecklists: collectExamChecklists(),
+
+        ...extraData,
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], {
+        type: "application/json",
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `tcas70-study-data-${activeToday}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    },
+    [studentName, subtaskStates, dailyNotes, taskNotes, errorLogs, activeToday],
+  );
 
   // Import JSON
   const importData = useCallback((jsonData) => {
@@ -319,6 +370,12 @@ export function useStudyProgress() {
       if (jsonData.studentName) {
         setStudentNameState(jsonData.studentName);
         localStorage.setItem(STORAGE_KEYS.STUDENT_NAME, jsonData.studentName);
+      }
+      if (
+        jsonData.examChecklists &&
+        typeof jsonData.examChecklists === "object"
+      ) {
+        restoreExamChecklists(jsonData.examChecklists);
       }
       return { success: true };
     } catch (e) {
