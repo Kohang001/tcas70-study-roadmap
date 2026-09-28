@@ -43,6 +43,16 @@ export default function Dashboard({
     setErrorModalOpen(true);
   };
 
+  const handleCloseErrorModal = () => {
+    setErrorModalOpen(false);
+    setErrorModalInitial(null);
+  };
+
+  const handleSaveError = (logData) => {
+    onAddErrorLog(logData);
+    handleCloseErrorModal();
+  };
+
   return (
     <div className="page-wrapper animate-fade-in">
       {/* Top Welcome & Motivation Banner */}
@@ -492,13 +502,15 @@ export default function Dashboard({
       </div>
 
       {/* Error Modal */}
-      <ErrorModal
-        isOpen={errorModalOpen}
-        onClose={() => setErrorModalOpen(false)}
-        onSave={onAddErrorLog}
-        initialData={errorModalInitial}
-        activeDate={activeToday}
-      />
+      {errorModalOpen && (
+        <ErrorModal
+          isOpen={true}
+          onClose={handleCloseErrorModal}
+          onSave={handleSaveError}
+          initialData={errorModalInitial}
+          activeDate={activeToday}
+        />
+      )}
     </div>
   );
 }
