@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, AlertCircle, Save, BookOpen } from 'lucide-react';
 import { SUBJECT_LIST } from '../data/subjects';
+import { ERROR_TYPES } from '../data/errorTypes';
 
 export default function ErrorModal({
   isOpen,
@@ -10,6 +11,7 @@ export default function ErrorModal({
   activeDate = '2026-09-28'
 }) {
   const [subject, setSubject] = useState('Physics');
+  const [errorType, setErrorType] = useState('concept');
   const [topic, setTopic] = useState('');
   const [questionDesc, setQuestionDesc] = useState('');
   const [whyWrong, setWhyWrong] = useState('');

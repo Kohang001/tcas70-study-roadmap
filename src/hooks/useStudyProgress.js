@@ -13,40 +13,7 @@ const STORAGE_KEYS = {
   STUDENT_NAME: "tcas70_student_name",
 };
 
-const DEFAULT_ERROR_LOGS = [
-  {
-    id: "err-default-1",
-    subject: "Physics",
-    topic: "Newton’s Laws of Motion",
-    questionDesc:
-      "โจทย์มวล 2 ก้อนบนพื้นเอียงมีแรงเสียดทาน ให้หาความเร่งของระบบ",
-    whyWrong: "ใส่แรงเสียดทานผิดทิศทาง ลืมดูทิศการเคลื่อนที่ที่แท้จริง",
-    solution:
-      "วาด Free Body Diagram (FBD) แยกแต่ละก้อน และกำหนดทิศทางความเร่ง a ให้ชัดเจนก่อนแทนค่าสูตร ΣF = ma ทุกครั้ง",
-    date: "2026-09-28",
-  },
-  {
-    id: "err-default-2",
-    subject: "Math1",
-    topic: "Function: Domain & Range",
-    questionDesc: "หาเรนจ์ของ f(x) = √(9 - x²)",
-    whyWrong:
-      "ตอบเรนจ์เป็น [-3, 3] สับสนระหว่างค่า x กับค่า y จากเครื่องหมายกรณฑ์",
-    solution:
-      "ค่าใต้รูท ≥ 0 เสมอ ทำให้ y อยู่ในช่วง [0, 3] ไม่สามารถเป็นค่าลบได้",
-    date: "2026-09-28",
-  },
-  {
-    id: "err-default-3",
-    subject: "TGAT2",
-    topic: "Number Series",
-    questionDesc: "อนุกรม 2, 5, 11, 23, 47, ...",
-    whyWrong: "มัวแต่หาผลต่างชั้นเดียว คิดไม่ออก",
-    solution:
-      "Pattern คือ คูณ 2 แล้วบวก 1: an = 2*(a_n-1) + 1 มองรูปแบบการคูณสะสม",
-    date: "2026-09-28",
-  },
-];
+const DEFAULT_ERROR_LOGS = [];
 
 function loadFromStorage(key, fallback) {
   try {
