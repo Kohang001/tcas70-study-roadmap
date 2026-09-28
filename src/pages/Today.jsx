@@ -60,6 +60,11 @@ export default function Today({
 
   // Filter tasks
   const filteredTasks = allTasks.filter((task) => {
+    // Exam Day light-review tasks ต้องแสดงเสมอ
+    if (currentPlan?.isExamDay) {
+      return true;
+    }
+
     // Subject filter
     if (
       subjectFilter !== "all" &&
@@ -67,20 +72,30 @@ export default function Today({
     ) {
       return false;
     }
+
     // Status filter
     if (statusFilter !== "all") {
       const prog = getTaskProgress(task, subtaskStates);
-      if (statusFilter === "completed" && !prog.isCompleted) return false;
-      if (statusFilter === "in_progress" && prog.status !== "in_progress")
+
+      if (statusFilter === "completed" && !prog.isCompleted) {
         return false;
-      if (statusFilter === "not_started" && prog.status !== "not_started")
+      }
+
+      if (statusFilter === "in_progress" && prog.status !== "in_progress") {
         return false;
+      }
+
+      if (statusFilter === "not_started" && prog.status !== "not_started") {
+        return false;
+      }
     }
+
     return true;
   });
 
   const progress = getDayProgress(allTasks, subtaskStates);
   const isExamDay = currentPlan && currentPlan.isExamDay;
+  const hasAfterExamTasks = isExamDay && allTasks.length > 0;
   const isPostExam = currentPlan && currentPlan.isPostExam;
   const isBrowsingOtherDay = selectedDate !== activeToday;
 
@@ -301,7 +316,7 @@ export default function Today({
         </div>
 
         {/* Progress Bar วันนี้ */}
-        {!isExamDay && allTasks.length > 0 && (
+        {allTasks.length > 0 && (
           <div
             style={{
               marginTop: "20px",
@@ -344,6 +359,41 @@ export default function Today({
         />
       )}
 
+      {hasAfterExamTasks && (
+        <div
+          style={{
+            background: "linear-gradient(135deg, #FFFBEB, #FFF7ED)",
+            border: "1px solid #FCD34D",
+            borderRadius: "var(--radius-2xl)",
+            padding: "18px 22px",
+            marginBottom: "20px",
+          }}
+        >
+          <div
+            style={{
+              fontWeight: 800,
+              fontSize: "1.05rem",
+              color: "#92400E",
+              marginBottom: "5px",
+            }}
+          >
+            🌙 หลังสอบวันนี้
+          </div>
+
+          <p
+            style={{
+              fontSize: "0.88rem",
+              color: "#A16207",
+              lineHeight: 1.6,
+              margin: 0,
+            }}
+          >
+            หลังสอบ Physics และพักเรียบร้อยแล้ว ทบทวน Math1 + English เบา ๆ
+            เท่านั้น รวมประมาณ 75 นาที ไม่ทำ Full Mock และไม่เปิดบทใหม่
+          </p>
+        </div>
+      )}
+
       {/* If All Tasks Complete banner */}
       {progress.isAllCompleted && allTasks.length > 0 && (
         <div
@@ -369,11 +419,19 @@ export default function Today({
                 marginBottom: "4px",
               }}
             >
-              🎉 งานวันนี้เสร็จครบแล้ว!
+              {isExamDay
+                ? "🌙 ทบทวนหลังสอบเสร็จแล้ว!"
+                : "🎉 งานวันนี้เสร็จครบแล้ว!"}
             </h3>
-            <p style={{ opacity: 0.95, fontSize: "0.92rem" }}>
-              เก่งมาก! ทำเป้าหมายประจำวันนี้สำเร็จครบ 100% แล้ว
-              พักผ่อนให้เต็มที่เพื่อเตรียมพร้อมสำหรับวันพรุ่งนี้
+            <p
+              style={{
+                opacity: 0.95,
+                fontSize: "0.92rem",
+              }}
+            >
+              {isExamDay
+                ? "พอแล้วสำหรับวันนี้ เก็บอุปกรณ์ เตรียมตัวสำหรับ Math1 + English และเข้านอนให้เพียงพอ"
+                : "เก่งมาก! ทำเป้าหมายประจำวันนี้สำเร็จครบ 100% แล้ว พักผ่อนให้เต็มที่เพื่อเตรียมพร้อมสำหรับวันพรุ่งนี้"}
             </p>
           </div>
 
@@ -470,7 +528,7 @@ export default function Today({
       )}
 
       {/* Tasks List */}
-      {!isExamDay && (
+      {(!isExamDay || hasAfterExamTasks) && (
         <>
           {filteredTasks.length === 0 ? (
             <EmptyState

@@ -3129,8 +3129,56 @@ export const DAILY_PLANS = [
     phase: "EXAM DAY: A-Level Physics",
     week: 23,
     focus:
-      "วันสอบ A-Level Physics เวลา 11:00–12:30 น. มีสมาธิ อ่านโจทย์ให้รอบคอบ และบริหารเวลาให้ดี!",
-    tasks: [],
+      "วันสอบ A-Level Physics เวลา 11:00–12:30 น. หลังสอบพักให้เต็มที่ แล้วทบทวน Math1 + English เบา ๆ สำหรับวันพรุ่งนี้",
+    tasks: [
+      {
+        id: "2027-03-13-math1-after-physics",
+        subject: "Math1",
+        topic: "Final Light Review: Formula & Error Log",
+        duration: 45,
+        type: "After Exam Light Review",
+        subtasks: [
+          {
+            id: "2027-03-13-math1-after-1",
+            title:
+              "เปิดสรุปสูตรเฉพาะหัวข้อสำคัญ: Function, Probability, Statistics และ Calculus",
+          },
+          {
+            id: "2027-03-13-math1-after-2",
+            title: "ทบทวน Error Log เฉพาะข้อที่เคยผิดซ้ำหรือมีจุดหลอกสำคัญ",
+          },
+          {
+            id: "2027-03-13-math1-after-3",
+            title:
+              "ทำโจทย์ระดับกลาง 3-5 ข้อเพื่อเรียกความมั่นใจ ห้ามเปิด Full Mock ใหม่",
+          },
+        ],
+      },
+
+      {
+        id: "2027-03-13-english-after-physics",
+        subject: "English",
+        topic: "Final Light Review: Vocabulary & Reading Strategy",
+        duration: 30,
+        type: "After Exam Light Review",
+        subtasks: [
+          {
+            id: "2027-03-13-english-after-1",
+            title: "ทบทวนศัพท์และ Collocation ที่จดไว้ประมาณ 15-20 คำ",
+          },
+          {
+            id: "2027-03-13-english-after-2",
+            title:
+              "ทบทวนเทคนิค Main Idea, Inference, Reference และ Vocabulary in Context",
+          },
+          {
+            id: "2027-03-13-english-after-3",
+            title:
+              "ดู Error Log ภาษาอังกฤษสั้น ๆ แล้วหยุดอ่าน เตรียมของและเข้านอนให้พอ",
+          },
+        ],
+      },
+    ],
   },
   {
     date: "2027-03-14",

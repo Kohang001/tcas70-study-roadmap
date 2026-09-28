@@ -143,6 +143,46 @@ export default function Dashboard({
         />
       )}
 
+      {isExamDay && tasks.length > 0 && (
+        <div
+          style={{
+            background: "#FFFBEB",
+            border: "1px solid #FCD34D",
+            borderRadius: "var(--radius-xl)",
+            padding: "14px 18px",
+            marginBottom: "22px",
+            display: "flex",
+            alignItems: "flex-start",
+            gap: "10px",
+            color: "#92400E",
+          }}
+        >
+          <span style={{ fontSize: "1.2rem" }}>🌙</span>
+
+          <div>
+            <div
+              style={{
+                fontWeight: 800,
+                marginBottom: "3px",
+              }}
+            >
+              ทำส่วนนี้หลังสอบและพักแล้วเท่านั้น
+            </div>
+
+            <div
+              style={{
+                fontSize: "0.86rem",
+                lineHeight: 1.6,
+              }}
+            >
+              วันนี้สอบ Physics ก่อน อย่าอ่าน Math หรือ English
+              จนรบกวนสมาธิก่อนเข้าสอบ หลังกลับจากสนามสอบพักให้เรียบร้อย
+              แล้วค่อยทบทวนเบา ๆ รวมประมาณ 75 นาที
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* If Post-Exam, show celebratory final notice */}
       {isPostExam && (
         <div
@@ -210,7 +250,9 @@ export default function Dashboard({
                   color: "var(--text-main)",
                 }}
               >
-                วันนี้ต้องทำอะไรบ้าง
+                {isExamDay && tasks.length > 0
+                  ? "หลังสอบวันนี้"
+                  : "วันนี้ต้องทำอะไรบ้าง"}
               </h3>
               <p style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>
                 {formatThaiDate(activeToday, true)}
