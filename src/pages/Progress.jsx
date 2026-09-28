@@ -17,23 +17,28 @@ import { ALL_DAILY_PLANS } from "../data/studyPlan";
 import { getSubjectProgress, getDayProgress } from "../utils/progressUtils";
 import { formatThaiDate } from "../utils/dateUtils";
 
-export default function Progress({ activeToday, streak, subtaskStates }) {
+export default function Progress({
+  activeToday,
+  streak,
+  subtaskStates,
+  targetScores,
+}) {
   // Compute overall stats across all daily plans
   let totalTasksOverall = 0;
   let completedTasksOverall = 0;
   let totalSubtasksOverall = 0;
   let completedSubtasksOverall = 0;
 
-  ALL_DAILY_PLANS.forEach(day => {
-  if (day.tasks) {
-    const p = getDayProgress(day.tasks, subtaskStates);
+  ALL_DAILY_PLANS.forEach((day) => {
+    if (day.tasks) {
+      const p = getDayProgress(day.tasks, subtaskStates);
 
-    totalTasksOverall += p.totalTasks;
-    completedTasksOverall += p.completedTasks;
-    totalSubtasksOverall += p.totalSubtasks;
-    completedSubtasksOverall += p.completedSubtasks;
-  }
-});
+      totalTasksOverall += p.totalTasks;
+      completedTasksOverall += p.completedTasks;
+      totalSubtasksOverall += p.totalSubtasks;
+      completedSubtasksOverall += p.completedSubtasks;
+    }
+  });
 
   const overallPercent =
     totalSubtasksOverall > 0
@@ -276,7 +281,11 @@ export default function Progress({ activeToday, streak, subtaskStates }) {
 
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           {SUBJECT_LIST.map((subject) => {
-            const stats = getSubjectProgress(subject.code, ALL_DAILY_PLANS, subtaskStates);
+            const stats = getSubjectProgress(
+              subject.code,
+              ALL_DAILY_PLANS,
+              subtaskStates,
+            );
             return (
               <div
                 key={subject.id}

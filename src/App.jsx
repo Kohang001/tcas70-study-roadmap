@@ -1,28 +1,37 @@
-import React, { useState } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Sidebar from './components/Sidebar';
-import Header from './components/Header';
-import MobileNav from './components/MobileNav';
-import OnboardingModal from './components/OnboardingModal';
+import React, { useState } from "react";
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Sidebar from "./components/Sidebar";
+import Header from "./components/Header";
+import MobileNav from "./components/MobileNav";
+import OnboardingModal from "./components/OnboardingModal";
 
 // Pages
-import Dashboard from './pages/Dashboard';
-import Today from './pages/Today';
-import WeeklyPlan from './pages/WeeklyPlan';
-import MonthlyPlan from './pages/MonthlyPlan';
-import Subjects from './pages/Subjects';
-import Progress from './pages/Progress';
-import ErrorLogPage from './pages/ErrorLogPage';
-import Settings from './pages/Settings';
+import Dashboard from "./pages/Dashboard";
+import Today from "./pages/Today";
+import WeeklyPlan from "./pages/WeeklyPlan";
+import MonthlyPlan from "./pages/MonthlyPlan";
+import Subjects from "./pages/Subjects";
+import Progress from "./pages/Progress";
+import ErrorLogPage from "./pages/ErrorLogPage";
+import Settings from "./pages/Settings";
 
 // Hooks & Data
-import { useStudyProgress } from './hooks/useStudyProgress';
-import { getSmartPlanForDate } from './data/studyPlan';
-import './styles/App.css';
+import useTargetScores from "./hooks/useTargetScores";
+import { useStudyProgress } from "./hooks/useStudyProgress";
+import { getSmartPlanForDate } from "./data/studyPlan";
+import "./styles/App.css";
 
 export default function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [showOnboardingManual, setShowOnboardingManual] = useState(false);
+
+  const { targetScores, updateTargetScore, resetTargetScores } =
+    useTargetScores();
 
   const {
     realTodayStr,
@@ -50,7 +59,7 @@ export default function App() {
     resetToday,
     resetAll,
     exportData,
-    importData
+    importData,
   } = useStudyProgress();
 
   // Active day tasks count for today badge
@@ -162,6 +171,7 @@ export default function App() {
                 element={
                   <Subjects
                     subtaskStates={subtaskStates}
+                    targetScores={targetScores}
                   />
                 }
               />
@@ -173,6 +183,7 @@ export default function App() {
                     activeToday={activeToday}
                     streak={streak}
                     subtaskStates={subtaskStates}
+                    targetScores={targetScores}
                   />
                 }
               />
@@ -207,6 +218,9 @@ export default function App() {
                     onExportData={exportData}
                     onImportData={importData}
                     onReplayOnboarding={() => setShowOnboardingManual(true)}
+                    targetScores={targetScores}
+                    onUpdateTargetScore={updateTargetScore}
+                    onResetTargetScores={resetTargetScores}
                   />
                 }
               />
