@@ -45,7 +45,6 @@ export default function ErrorModal({
       solution,
       date,
     });
-    onClose();
   };
 
   return (

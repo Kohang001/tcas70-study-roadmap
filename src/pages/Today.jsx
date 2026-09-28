@@ -87,11 +87,11 @@ export default function Today({
   const isBrowsingOtherDay = selectedDate !== activeToday;
 
   const handlePrevDay = () => {
-    changeSelectedDate((prev) => addDays(prev, -1));
+    changeSelectedDate(addDays(selectedDate, -1));
   };
 
   const handleNextDay = () => {
-    changeSelectedDate((prev) => addDays(prev, 1));
+    changeSelectedDate(addDays(selectedDate, 1));
   };
 
   const handleBackToToday = () => {
